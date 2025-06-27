@@ -4,11 +4,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Slf4j
 @Controller
 public class EtcController {
+    static public String GetNowTime()
+    {
+        Date today = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("현재 시간 yyyy.MM.dd a HH:mm");
+        log.info("시간 확인 : " + dateFormat.format(today).toString());
+        return dateFormat.format(today).toString();
+    }
 
     @GetMapping("/random/img")
     public String showRandomImg(Model model)
@@ -19,6 +27,7 @@ public class EtcController {
         String imgPath = "/Images/" + ranNum + ".jpg";
         log.info("이미지 보기 확인 랜덤수 경로 : " + imgPath);
         model.addAttribute("imgPath", imgPath);
+        model.addAttribute("nowTime", GetNowTime());
         return "etc/showImg";
     }
 

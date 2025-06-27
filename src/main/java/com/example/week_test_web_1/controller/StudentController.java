@@ -20,14 +20,16 @@ public class StudentController {
     private StudentRepository studentRepository;
 
     @GetMapping("/main")
-    public String mainPage()
+    public String mainPage(Model model)
     {
         log.info("메인 확인");
+
+        model.addAttribute("nowTime", EtcController.GetNowTime());
         return "/index";
     }
     
     @PostMapping("/students/create")
-    public String newStudentForm(StudentForm studentForm)
+    public String newStudentForm(Model model,StudentForm studentForm)
     {
         log.info("데이터 추가 확인");
         //System.out.println("1.확인용 : " + articleForm.toString());
@@ -41,7 +43,7 @@ public class StudentController {
         Student saved = studentRepository.save(student);
         //System.out.println("3.확인용 Article save : " + saved.toString());
         log.info(saved.toString());
-
+        model.addAttribute("nowTime", EtcController.GetNowTime());
         return "/index";
     }
 
@@ -50,12 +52,9 @@ public class StudentController {
     {
         ArrayList<Student> studentList = studentRepository.findAll();
 
-
+        model.addAttribute("nowTime", EtcController.GetNowTime());
         // 모델에 데이터 등록
         model.addAttribute("students", studentList);
         return "students/showList";
     }
-    
-
-
 }
